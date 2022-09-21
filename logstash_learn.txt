@@ -1,0 +1,42 @@
+Logstash not creating index in elasticsearch.
+
+removed below in elasticsearch yml fixed the issue:
+action.auto_create_index: .monitoring*,.watches,.triggered_watches,.watcher-history*,.ml*
+
+Elk 8 video - https://www.youtube.com/watch?v=BybAetckH88
+
+Kibana Dashboard steps:
+
+video - https://www.youtube.com/watch?v=I_XynnwMOuc
+
+steps:
+1. setup Dataviews for the Index that we want to check logs.
+2. Analytics -> Discover we can search logs.
+
+ElasticSearch server - http://localhost:9200/
+Kibana dashboard - http://localhost:5601/
+
+check indices - http://localhost:9200/_cat/indices/ & http://localhost:9200/{index_name}/_search sample - http://localhost:9200/logstash_log/_search
+
+logstash command - 
+
+In Kibana.yml file we need to uncomment below:
+server.port: 5601
+server.host: "localhost"
+elasticsearch.hosts: ["http://localhost:9200"]
+elasticsearch.username: "kibana_system"
+elasticsearch.password: "tMS-zZT8oF7*dklO1OTq"
+
+In Logstash need to write conf file which has the details of elasticsearch and logs details -sample learn.conf. C:\ELK_Stack\logstash-8.4.2\config
+
+-> elasticsearch needs to get password from logs once we got after server start
+-> we need to update cluster.name and path.data in elasticsearch.yml file. also need to make ssl to false.
+
+In Project
+-> need to setup logfile with below properties in Spring boot project.
+ logging:
+  file:
+    name: C:/ELK_Stack/logs/elk-stack.log
+-> set the log file name in logstash .conf file to create indexes. once we run the logstash file with command (logstash -f ./config/learn.conf) 
+logs will be listen from logstash and that will create indices.
+-> index will get created and elasticsearch will pick up the logs, logs will get added to Kibana dashboard.

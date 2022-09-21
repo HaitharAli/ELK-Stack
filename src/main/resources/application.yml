@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: elk-stack-example
+
+server:
+  port: 9898
+
+logging:
+  file:
+    name: C:/ELK_Stack/logs/elk-stack.log
